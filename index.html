@@ -1,0 +1,96 @@
+<!doctype html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="app.css">
+	<title>vue-mini</title>
+</head>
+<body>
+	<div class="container pt-5" id="app">
+		<div class="row mb-4">
+			<div class="col">
+				<h1>Cars application</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group">
+					<label for="search">Find car</label>
+					<input type="text" 
+						   class="form-control"
+						   id="search"
+						   placeholder="Name, model...."
+						   v-model="search">
+				</div>
+
+				<hr>
+
+				<ul class="list-group">
+					<li v-for="(car, index) of filteredCars"
+						class="list-group-item list-group-item-action pointer"
+						v-on:click="showCar(index)"
+						v-bind:class="{'active': selectedCarIndex === index }"
+						>{{ car.name }} - {{ car.model }}		
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-8 pt-3">
+				<div class="row">
+					<div class="col-md-6">
+						<h2>{{ car.name }}</h2>
+						<img v-bind:src="car.image"
+							 v-bind:alt="car.name" 
+							 class="rounded detailed-car-image">
+					</div>
+					<div class="col-md-6 pt-2">
+						<h5>Car details</h5>
+
+						<ul>
+							<li>Model - <strong>{{ car.model }}</strong></li>
+							<li>Year - <strong>{{ car.year }}</strong></li>
+							<li>Owner - <strong>{{ car.owner }}</strong></li>
+						</ul>
+						<div class="phone-block">
+							<p v-if="phoneVisibility">{{ car.phone }}</p>
+						</div>
+						<button class="btn btn-outline-success mr-2"
+								v-on:click="phoneVisibility = !phoneVisibility"
+								v-text="phoneBtnText">
+						</button>
+						<button v-on:click="buyingWindow = true" class="btn btn-primary">Buy</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div v-if="buyingWindow" class="modal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Do you want by this car?</h5>
+						<button v-on:click="buyingWindow = false" type="button" class="close" data-dismiss="modal" aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p>Current car - <strong>{{ car.name }}</strong></p>
+
+						<ul>
+							<li>Model - <strong>{{ car.model }}</strong></li>
+							<li>Year - <strong>{{ car.year }}</strong></li>
+							<li>Owner - <strong>{{ car.owner }}</strong></li>
+						</ul>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary">Buy</button>
+						<button v-on:click="buyingWindow = false" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+			</div>
+		</div>
+</div>
+	</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+<script src="app.js"></script>
+</body>
+<html>
