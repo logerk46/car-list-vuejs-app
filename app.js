@@ -7,7 +7,7 @@ new Vue({
 	el: '#app',
 	data: {
 		cars: cars,
-		car: cars[1],
+		car: cars[0],
 		selectedCarIndex: 0,
 		phoneVisibility: false,
 		search: '',
